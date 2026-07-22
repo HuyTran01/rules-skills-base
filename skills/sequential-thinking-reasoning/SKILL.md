@@ -1,6 +1,9 @@
 ---
 name: sequential-thinking-reasoning
-description: Structured reasoning via sequential-thinking MCP. Use for debugging, architectural decisions, multi-hypothesis analysis, and complex planning.
+description: >-
+  Structured reasoning via sequential-thinking MCP. Use for debugging,
+  architectural decisions, multi-hypothesis analysis, and complex planning.
+disabled: true
 ---
 
 # Sequential Thinking Reasoning
@@ -21,10 +24,10 @@ Use when:
 - When the overhead of reasoning exceeds the value of the answer.
 
 ## Delegates to
-- `../../Rules/runtime-routing.md` — MCP selection decision tree
-- `../../Rules/task-routing.md` — task class determines when reasoning is justified
-- `../../Rules/conflict-resolution.md` — "sequential-thinking feels useful but the decision is simple"
-- `../../Rules/nav-codebase-graph.md` — gather graph evidence before reasoning
+- `Rules/runtime-routing.md` — MCP selection decision tree
+- `Rules/task-routing.md` — task class determines when reasoning is justified
+- `Rules/conflict-resolution.md` — "sequential-thinking feels useful but the decision is simple"
+- `Rules/nav-codebase-graph.md` — gather graph evidence before reasoning
 
 ## Tool reference
 

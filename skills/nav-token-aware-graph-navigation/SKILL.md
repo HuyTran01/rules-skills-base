@@ -1,6 +1,9 @@
 ---
 name: nav-token-aware-graph-navigation
-description: Navigate code relationships via codebase-memory-mcp with minimal token cost. Use graph queries instead of grep/file reads.
+description: >-
+  Navigate code relationships via codebase-memory-mcp with minimal token cost.
+  Use graph queries instead of grep/file reads.
+disabled: true
 ---
 
 # Token-Aware Graph Navigation
@@ -9,10 +12,10 @@ description: Navigate code relationships via codebase-memory-mcp with minimal to
 Use when code relationships, architecture, shared-core impact, callers, callees, or data flow are central to the task.
 
 ## Delegates to
-- `../../Rules/nav-codebase-graph.md` — full tool reference, graph model, and Cypher patterns
-- `../../Rules/runtime-routing.md`
-- `../../Rules/task-retrieval-budget.md`
-- `../../Rules/task-token-efficiency.md`
+- `Rules/nav-codebase-graph.md` — full tool reference, graph model, and Cypher patterns
+- `Rules/runtime-routing.md`
+- `Rules/task-retrieval-budget.md`
+- `Rules/task-token-efficiency.md`
 
 ## Operating flow
 
@@ -22,7 +25,7 @@ Use when code relationships, architecture, shared-core impact, callers, callees,
 
 ### Phase 2: Discovery (tier-0)
 3. `search_graph` — find target symbols by name pattern, label, or file scope.
-4. Optional: `semantic_query` — vector search for conceptually related code, only if the installed codebase-memory-mcp exposes it (see `../../Rules/nav-codebase-graph.md`).
+4. `semantic_query` — vector search for conceptually related code, if available in the installed version (see `nav-codebase-graph.md`).
 5. If multiple candidates → narrow with degree filters or file scope.
 
 ### Phase 3: Navigation (tier-1)
@@ -44,7 +47,7 @@ Use when code relationships, architecture, shared-core impact, callers, callees,
 | Find a function/class by name | `search_graph` |
 | See who calls a function | `trace_path` (direction: inbound) |
 | See what a function calls | `trace_path` (direction: outbound) |
-| Natural language code search | `semantic_query` if the installed version exposes it; otherwise skip |
+| Natural language code search | `semantic_query` (if available in installed version) |
 | Find call chain A→B | `trace_path` (alias `trace_call_path`) |
 | Complex structural query | `query_graph` (Cypher) |
 | Read a function's source | `get_code_snippet` |

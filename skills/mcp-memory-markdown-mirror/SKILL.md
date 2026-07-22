@@ -1,6 +1,10 @@
 ---
 name: mcp-memory-markdown-mirror
-description: Mirror Knowledge Graph memory writes into a human-readable memory/memory.md file inside the current project, so the user can audit project memory without opening the MCP JSON store.
+description: >-
+  Mirror Knowledge Graph memory writes into a human-readable memory/memory.md
+  file inside the current project, so the user can audit project memory without
+  opening the MCP JSON store.
+disabled: true
 ---
 
 # MCP Memory Markdown Mirror
@@ -13,9 +17,9 @@ Use right after any memory MCP write for the current project:
 Runs as a follow-up step after `mcp-memory-workflow` and `mcp-memory-continuity-resume` — not a replacement for either.
 
 ## Delegates to
-- `../../Rules/memory-markdown-mirror.md` — canonical mirror format, sync strategy, and safety rules
-- `../../Rules/memory-governance.md` — entity taxonomy and what not to store
-- `../../Rules/task-token-efficiency.md`
+- `Rules/memory-markdown-mirror.md` — canonical mirror format, sync strategy, and safety rules
+- `Rules/memory-governance.md` — entity taxonomy and what not to store
+- `Rules/task-token-efficiency.md`
 
 ## Operating flow
 1. After a memory write completes for the current project, gather current state scoped to that project:

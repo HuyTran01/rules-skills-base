@@ -41,7 +41,7 @@ Runtime execution decisions belong in `runtime-routing.md`.
 | `long-running-context-heavy` | as needed per subtask | use for complex subtasks | full continuity protocol |
 
 ## Fast routing guide
-- `trivial-local`: stay bounded, avoid heavy workflows, and use direct local artifacts first when the target is exact and the artifact already answers the question.
+- `trivial-local`: stay bounded, avoid heavy workflows, skip MCPs if target is exact.
 - `scoped-change`: start cheap with graph query, then narrow to source.
 - `shared-core-change`: stay impact-aware, use graph traces, reason with sequential-thinking.
 - `investigation-debug`: use evidence and hypothesis loops, remember past solutions.

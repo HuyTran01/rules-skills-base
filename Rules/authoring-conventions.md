@@ -19,7 +19,7 @@ Use these conventions to reduce drift and duplication when adding or editing rul
   - how to re-check when task shape changes
 
 ## Skill authoring
-- Each `skills/<folder>/SKILL.md` file should contain:
+- Each `skills/<folder>/SKILL` file should contain:
   1. metadata
   2. when to activate
   3. a short operating flow

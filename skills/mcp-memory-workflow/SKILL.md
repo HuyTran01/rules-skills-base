@@ -1,6 +1,9 @@
 ---
 name: mcp-memory-workflow
-description: Read and write Knowledge Graph memory with auto-learn protocol. Agent remembers project knowledge across sessions.
+description: >-
+  Read and write Knowledge Graph memory with auto-learn protocol. Agent
+  remembers project knowledge across sessions.
+disabled: true
 ---
 
 # MCP Memory Workflow
@@ -14,10 +17,10 @@ Use when:
 - Cross-session continuity may reduce repeated work.
 
 ## Delegates to
-- `../../Rules/memory-governance.md` — entity taxonomy, naming, safety, and auto-learn triggers
-- `../../Rules/memory-markdown-mirror.md` — sync the human-readable mirror after any write in this flow
-- `../../Rules/task-token-efficiency.md`
-- `../../Rules/conflict-resolution.md`
+- `Rules/memory-governance.md` — entity taxonomy, naming, safety, and auto-learn triggers
+- `Rules/memory-markdown-mirror.md` — sync the human-readable mirror after any write in this flow
+- `Rules/task-token-efficiency.md`
+- `Rules/conflict-resolution.md`
 
 ## Operating flow
 
@@ -40,11 +43,11 @@ Use when:
    b. YES → `add_observations` to the existing entity.
    c. NO → `create_entities` with proper entityType from taxonomy.
 7. If entities should be connected: `create_relations`.
-8. Sync the project's `memory/memory.md` mirror — see `mcp-memory-markdown-mirror` and `../../Rules/memory-markdown-mirror.md`.
+8. Sync the project's `memory/memory.md` mirror — see `mcp-memory-markdown-mirror` and `Rules/memory-markdown-mirror.md`.
 
 ## Entity taxonomy reference
 
-Please refer to the canonical entity taxonomy table defined in **[memory-governance.md](../../Rules/memory-governance.md#entity-taxonomy-for-coding-context)**. Do not define a duplicate taxonomy table here.
+Please refer to the canonical entity taxonomy table defined in **[memory-governance.md](Rules/memory-governance.md#entity-taxonomy-for-coding-context)**. Do not define a duplicate taxonomy table here.
 
 ## Example: full auto-learn cycle
 

@@ -1,6 +1,9 @@
 ---
 name: task-classification-router
-description: Classify task shape, choose the default MCP set, and pick the cheapest retrieval tier — all in one pass.
+description: >-
+  Classify task shape, choose the default MCP set, and pick the cheapest
+  retrieval tier — all in one pass.
+disabled: true
 ---
 
 # Task Classification Router
@@ -9,11 +12,11 @@ description: Classify task shape, choose the default MCP set, and pick the cheap
 Use at task start, after scope changes, or when the current workflow feels too heavy or too weak.
 
 ## Delegates to
-- `../../Rules/runtime-routing.md`
-- `../../Rules/task-routing.md`
-- `../../Rules/project-profile-detection.md`
-- `../../Rules/task-retrieval-budget.md`
-- `../../Rules/task-token-efficiency.md`
+- `Rules/runtime-routing.md`
+- `Rules/task-routing.md`
+- `Rules/project-profile-detection.md`
+- `Rules/task-retrieval-budget.md`
+- `Rules/task-token-efficiency.md`
 
 ## Operating flow
 1. Classify the current `TaskClass`.
@@ -26,16 +29,16 @@ Use at task start, after scope changes, or when the current workflow feels too h
 ## Decision tree
 
 ```
-Is the target exact and already answered by a raw artifact (single file, single line, known fix, exact config/docs/logs)?
-  YES → trivial-local → use the raw artifact first; do not add graph/memory unless impact or reuse is unclear
+Is the target exact (single file, single line, known fix)?
+  YES → trivial-local → skip MCPs, direct edit
   NO  ↓
 
 Does it touch shared logic, multiple callers, or API contracts?
-  YES → shared-core-change → codebase-memory + sequential-thinking + memory
+  YES → shared-core-change → full codebase-memory + sequential-thinking + memory
   NO  ↓
 
 Is this a bug, error, or unexpected behavior?
-  YES → investigation-debug → memory + codebase-memory + sequential-thinking (recall past bugs)
+  YES → investigation-debug → sequential-thinking + codebase-memory + memory (recall past bugs)
   NO  ↓
 
 Will this take many steps or span sessions?
