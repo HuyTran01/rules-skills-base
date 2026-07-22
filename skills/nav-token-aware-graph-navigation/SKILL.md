@@ -40,32 +40,11 @@ Use when code relationships, architecture, shared-core impact, callers, callees,
 ### Phase 5: Local fallback (tier-3)
 10. Only use raw file reads when graph cannot answer the question.
 
-## Tool selection quick guide
-
-| I need to... | Use tool |
-|---|---|
-| Understand project structure | `get_architecture` |
-| Find a function/class by name | `search_graph` |
-| See who calls a function | `trace_path` (direction: inbound) |
-| See what a function calls | `trace_path` (direction: outbound) |
-| Natural language code search | `semantic_query` (if available in installed version) |
-| Find call chain A→B | `trace_path` (alias `trace_call_path`) |
-| Complex structural query | `query_graph` (Cypher) |
-| Read a function's source | `get_code_snippet` |
-| Search code patterns | `search_code` |
-| Check uncommitted changes | `detect_changes` |
-| Save an architecture decision | `manage_adr` |
-
 ## Index management
 - If project is not indexed: suggest `index_repository` to the user.
 - Check status with `index_status` during indexing.
 - Re-index after major refactors.
 - Use `list_projects` to see what's already indexed.
 
-## Anti-patterns
-- Forcing graph-first for exact local artifacts (configs, docs, logs).
-- Trusting graph-first inbound analysis for dynamic hook/registry-based registrations (e.g., WordPress callback functions, event emitter listeners; always grep to verify — see `nav-codebase-graph.md`).
-- Staying graph-heavy after the target narrows to a specific file.
-- Reading full files when `get_code_snippet` would suffice.
-- Running `query_graph` with overly broad queries.
-- Not indexing the project before trying graph queries.
+## Notes
+- The canonical graph model, fallback rules, and query patterns live in `nav-codebase-graph.md`.

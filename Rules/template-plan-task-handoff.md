@@ -39,9 +39,3 @@ Recommended structure:
 - Result
 - Knowledge saved (if auto-learn triggered)
 - Notes
-
-## Anti-patterns
-- storing long raw logs in the handoff
-- repeating the full task history
-- mixing speculative ideas with confirmed findings
-- forgetting to save valuable knowledge after a successful task

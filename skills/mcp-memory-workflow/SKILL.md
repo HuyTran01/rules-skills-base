@@ -46,39 +46,5 @@ Use when:
 7. If entities should be connected: `create_relations`.
 8. Sync the project's `memory/memory.md` mirror — see `mcp-memory-markdown-mirror` and `Rules/memory-markdown-mirror.md`.
 
-## Entity taxonomy reference
-
-Please refer to the canonical entity taxonomy table defined in **[memory-governance.md](../../Rules/memory-governance.md#entity-taxonomy-for-coding-context)**. Do not define a duplicate taxonomy table here.
-
-## Example: full auto-learn cycle
-
-```
-Task: "Fix the auth middleware to handle expired tokens"
-
-1. RECALL:
-   search_nodes("auth") → finds "auth_module" entity
-   Observations: "JWT-based", "Tokens expire in 1h"
-   → Agent knows the tech context without re-reading files
-
-2. EXECUTE task using recalled context...
-
-3. LEARN:
-   - Discovered: refresh token rotation pattern
-   - search_nodes("auth_module") → entity exists
-   - add_observations("auth_module", ["Refresh token rotation implemented", "Refresh tokens expire in 7d"])
-   - Discovered: user prefers error responses in Vietnamese
-   - create_entities([{name: "user_error_locale", entityType: "user_preference", observations: ["Error messages should be in Vietnamese"]}])
-```
-
-## Cleanup protocol
-- When a fact is contradicted by new evidence: `delete_observations` + `add_observations`.
-- When an entity is no longer relevant: `delete_entities`.
-- When a relation changes: `delete_relations` + `create_relations`.
-
-## Anti-patterns
-- Writing speculative or unconfirmed memory.
-- Storing raw logs, tool output, or verbose text.
-- Creating duplicate entities without checking first.
-- Storing secrets or credentials.
-- Writing memory for one-off tasks with no reuse value.
-- Forgetting to recall memory at task start.
+## Notes
+- Follow the canonical entity taxonomy, safety, and cleanup rules in `memory-governance.md`.

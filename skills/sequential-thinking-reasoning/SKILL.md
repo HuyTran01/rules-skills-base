@@ -18,10 +18,7 @@ Use when:
 - Complex refactoring affecting many components.
 
 ## When NOT to activate
-- Trivial yes/no decisions.
-- Tasks where the solution is already clear.
-- Simple code changes with no ambiguity.
-- When the overhead of reasoning exceeds the value of the answer.
+- Use the canonical conflict and routing rules to skip sequential-thinking for trivial or already-clear decisions.
 
 ## Delegates to
 - `../../Rules/runtime-routing.md` — MCP selection decision tree
@@ -121,10 +118,5 @@ Save the conclusion for future use:
 - Reduce `totalThoughts` if the answer becomes clear early.
 - Avoid over-thinking: if the conclusion is obvious by step 2, set `nextThoughtNeeded: false`.
 
-## Anti-patterns
-- Using sequential-thinking for trivial decisions.
-- Starting reasoning without first gathering evidence from graph or memory.
-- Not using revision when a hypothesis is disproven (continuing linearly instead).
-- Not saving valuable conclusions to memory MCP.
-- Over-estimating totalThoughts and producing unnecessary steps.
-- Using sequential-thinking when a simple list of pros/cons would suffice.
+## Notes
+- The canonical activation and downgrade rules live in `runtime-routing.md`, `task-routing.md`, and `conflict-resolution.md`.

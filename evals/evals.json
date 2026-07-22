@@ -1,0 +1,413 @@
+{
+  "schema_version": "1.0",
+  "name": "rules-skills-base-behavioral-evals",
+  "description": "Behavioral evaluation prompts for MCP-first rules and skills using codebase-memory-mcp, memory, and sequential-thinking.",
+  "repository_root": "/home/huytran/Work/Tài liệu/rules-skills-base",
+  "default_scoring": {
+    "scale": "0-2",
+    "meaning": {
+      "0": "wrong, missing, or unsafe",
+      "1": "partially correct or insufficiently explicit",
+      "2": "correct and complete"
+    }
+  },
+  "evals": [
+    {
+      "id": "router-01",
+      "skill": "task-classification-router",
+      "kind": "positive",
+      "prompt": "Sửa lỗi chính tả ở dòng 42 của file config.yaml. Không thay đổi nội dung nào khác.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": [
+        "Nhận diện target và thay đổi là local, exact.",
+        "Ưu tiên đọc/sửa trực tiếp file được chỉ định.",
+        "Xác minh lại vùng đã sửa trước khi kết luận."
+      ],
+      "must_not": [
+        "Không kích hoạt task-classification-router như một workflow nặng.",
+        "Không gọi codebase-memory-mcp, sequential-thinking, hoặc memory chỉ vì thói quen."
+      ],
+      "scoring": {"trigger": 25, "routing": 30, "completeness": 20, "restraint": 20, "safety": 5}
+    },
+    {
+      "id": "router-02",
+      "skill": "task-classification-router",
+      "kind": "positive",
+      "prompt": "Thêm loading spinner vào nút Login. Hãy tìm component hiện tại, giữ nguyên convention của repository và kiểm tra các test liên quan nếu có.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["task-classification-router", "nav-token-aware-graph-navigation"],
+      "expected_mcp": ["memory.search_nodes", "codebase-memory-mcp.search_graph", "codebase-memory-mcp.get_code_snippet"],
+      "must": [
+        "Phân loại là scoped-change.",
+        "Dùng graph để tìm component nếu target chưa rõ, sau đó đọc source bounded.",
+        "Kiểm tra project convention và verification path."
+      ],
+      "must_not": [
+        "Không tự động dùng sequential-thinking nếu không có ambiguity đáng kể.",
+        "Không chạy full repository exploration."
+      ],
+      "scoring": {"trigger": 20, "routing": 30, "completeness": 25, "restraint": 20, "safety": 5}
+    },
+    {
+      "id": "router-03",
+      "skill": "task-classification-router",
+      "kind": "positive",
+      "prompt": "Refactor auth middleware được dùng bởi UserController, AdminController và API gateway để hỗ trợ refresh token mà không phá vỡ API contract.",
+      "expected_task_class": "shared-core-change",
+      "target_skills": ["task-classification-router", "nav-token-aware-graph-navigation", "sequential-thinking-reasoning", "mcp-memory-workflow"],
+      "expected_mcp": ["memory.search_nodes", "codebase-memory-mcp.search_graph", "codebase-memory-mcp.trace_path", "sequential-thinking.sequential_thinking"],
+      "must": [
+        "Nhận diện shared-core impact.",
+        "Trace callers/dependents trước khi sửa.",
+        "Dùng structured reasoning cho trade-offs/API compatibility.",
+        "Sau verification, lưu decision ổn định nếu có."
+      ],
+      "must_not": [
+        "Không chỉ sửa middleware mà bỏ qua callers.",
+        "Không lưu hypothesis chưa được xác minh vào memory."
+      ],
+      "scoring": {"trigger": 15, "routing": 30, "completeness": 30, "restraint": 10, "safety": 15}
+    },
+    {
+      "id": "router-04",
+      "skill": "task-classification-router",
+      "kind": "positive",
+      "prompt": "Người dùng báo checkout đôi khi trả 500. Chưa biết nguyên nhân, cần điều tra từ evidence và đưa ra fix có thể kiểm chứng.",
+      "expected_task_class": "investigation-debug",
+      "target_skills": ["task-classification-router", "mcp-memory-workflow", "nav-token-aware-graph-navigation", "sequential-thinking-reasoning"],
+      "expected_mcp": ["memory.search_nodes", "codebase-memory-mcp.search_graph", "codebase-memory-mcp.trace_path", "sequential-thinking.sequential_thinking"],
+      "must": [
+        "Recall các bug pattern liên quan nếu có.",
+        "Trace checkout flow để thu thập evidence.",
+        "Nêu nhiều hypothesis và test rẻ nhất cho từng hypothesis.",
+        "Xác nhận root cause và effect của fix trước khi kết luận."
+      ],
+      "must_not": [
+        "Không kết luận nguyên nhân từ symptom duy nhất.",
+        "Không ghi hypothesis speculative vào memory."
+      ],
+      "scoring": {"trigger": 15, "routing": 25, "completeness": 35, "restraint": 10, "safety": 15}
+    },
+    {
+      "id": "router-05",
+      "skill": "task-classification-router",
+      "kind": "positive",
+      "prompt": "Migrate toàn bộ API từ Express sang Fastify, dự kiến kéo dài nhiều session và cần handoff rõ ràng.",
+      "expected_task_class": "long-running-context-heavy",
+      "target_skills": ["task-classification-router", "mcp-memory-workflow", "mcp-memory-continuity-resume"],
+      "expected_mcp": ["memory.search_nodes", "codebase-memory-mcp.get_architecture", "sequential-thinking.sequential_thinking", "memory.create_entities", "memory.add_observations"],
+      "must": [
+        "Thiết lập plan theo subtask thay vì xử lý như một edit đơn.",
+        "Tạo hoặc cập nhật continuity state khi pause/blocker.",
+        "Lưu findings ổn định và next step cụ thể."
+      ],
+      "must_not": [
+        "Không bắt buộc gọi cả ba MCP ở mọi subtask nếu không cần.",
+        "Không lưu raw logs hoặc toàn bộ file vào continuity."
+      ],
+      "scoring": {"trigger": 15, "routing": 25, "completeness": 35, "restraint": 10, "safety": 15}
+    },
+    {
+      "id": "router-06",
+      "skill": "task-classification-router",
+      "kind": "negative",
+      "prompt": "Đọc file README.md được chỉ định và giải thích ý nghĩa của một đoạn văn. Không cần sửa code.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Dùng đúng file artifact mà user đã chỉ định."],
+      "must_not": ["Không ép memory-first hoặc graph-first khi raw artifact đã đủ trả lời."],
+      "scoring": {"trigger": 30, "routing": 30, "completeness": 15, "restraint": 20, "safety": 5}
+    },
+    {
+      "id": "graph-01",
+      "skill": "nav-token-aware-graph-navigation",
+      "kind": "positive",
+      "prompt": "Tìm function handleRequest và cho biết những function nào gọi nó trực tiếp.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["nav-token-aware-graph-navigation"],
+      "expected_mcp": ["codebase-memory-mcp.search_graph", "codebase-memory-mcp.trace_path"],
+      "must": ["Search qualified symbol trước, sau đó trace inbound callers."],
+      "must_not": ["Không đọc toàn bộ repository hoặc dùng grep chain nếu graph trả lời được."],
+      "scoring": {"trigger": 25, "routing": 30, "completeness": 25, "restraint": 15, "safety": 5}
+    },
+    {
+      "id": "graph-02",
+      "skill": "nav-token-aware-graph-navigation",
+      "kind": "positive",
+      "prompt": "Đánh giá blast radius trước khi thay đổi UserService.authenticate vì nó có thể ảnh hưởng nhiều package.",
+      "expected_task_class": "shared-core-change",
+      "target_skills": ["nav-token-aware-graph-navigation", "sequential-thinking-reasoning"],
+      "expected_mcp": ["codebase-memory-mcp.search_graph", "codebase-memory-mcp.trace_path", "codebase-memory-mcp.query_graph", "codebase-memory-mcp.detect_changes"],
+      "must": ["Map callers/dependents và dùng evidence impact-aware trước khi đề xuất edit."],
+      "must_not": ["Không coi một inbound trace rỗng là bằng chứng function dead trong project có dynamic registry."],
+      "scoring": {"trigger": 20, "routing": 30, "completeness": 30, "restraint": 10, "safety": 10}
+    },
+    {
+      "id": "graph-03",
+      "skill": "nav-token-aware-graph-navigation",
+      "kind": "positive",
+      "prompt": "Trong một project dùng event emitter, callback onCheckout có vẻ không có caller trong graph. Hãy kiểm tra nó có thực sự được đăng ký và dispatch không.",
+      "expected_task_class": "investigation-debug",
+      "target_skills": ["nav-token-aware-graph-navigation"],
+      "expected_mcp": ["codebase-memory-mcp.trace_path", "codebase-memory-mcp.search_code"],
+      "must": ["Dùng graph nhưng bắt buộc grep/search_code callback hoặc event name để kiểm tra dynamic wiring."],
+      "must_not": ["Không kết luận dead code chỉ từ empty trace_path."],
+      "scoring": {"trigger": 20, "routing": 25, "completeness": 35, "restraint": 10, "safety": 10}
+    },
+    {
+      "id": "graph-04",
+      "skill": "nav-token-aware-graph-navigation",
+      "kind": "negative",
+      "prompt": "Mở chính xác file Dockerfile mà tôi đã gửi và chỉ ra dòng expose port.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Đọc raw artifact trực tiếp."],
+      "must_not": ["Không kích hoạt graph navigation khi exact file đã đủ dữ liệu."],
+      "scoring": {"trigger": 35, "routing": 25, "completeness": 20, "restraint": 15, "safety": 5}
+    },
+    {
+      "id": "memory-01",
+      "skill": "mcp-memory-workflow",
+      "kind": "positive",
+      "prompt": "Bắt đầu task trong project my-webapp. Hãy nhớ lại các convention và architectural decisions đã biết trước khi khám phá code.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["mcp-memory-workflow"],
+      "expected_mcp": ["memory.search_nodes", "memory.open_nodes"],
+      "must": ["Search memory bằng project name/keywords và dùng observations để tránh rediscovery."],
+      "must_not": ["Không ghi memory chỉ vì đọc memory."],
+      "scoring": {"trigger": 25, "routing": 30, "completeness": 25, "restraint": 15, "safety": 5}
+    },
+    {
+      "id": "memory-02",
+      "skill": "mcp-memory-workflow",
+      "kind": "positive",
+      "prompt": "Đã xác nhận repository dùng REST API với prefix /api/v1. Hãy lưu convention này để dùng trong các session sau.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["mcp-memory-workflow", "mcp-memory-markdown-mirror"],
+      "expected_mcp": ["memory.search_nodes", "memory.create_entities", "memory.add_observations"],
+      "must": ["Search trước khi create; dùng entityType convention; sync mirror sau mutation."],
+      "must_not": ["Không tạo duplicate entity nếu convention đã tồn tại."],
+      "scoring": {"trigger": 20, "routing": 25, "completeness": 30, "restraint": 10, "safety": 15}
+    },
+    {
+      "id": "memory-03",
+      "skill": "mcp-memory-workflow",
+      "kind": "negative",
+      "prompt": "Tôi đoán lỗi này có thể do race condition, nhưng chưa có evidence. Hãy lưu giả thuyết này vào memory để khỏi quên.",
+      "expected_task_class": "investigation-debug",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Từ chối lưu speculative hypothesis và yêu cầu/thu thập evidence trước."],
+      "must_not": ["Không gọi create_entities hoặc add_observations cho hypothesis chưa xác nhận."],
+      "scoring": {"trigger": 30, "routing": 20, "completeness": 20, "restraint": 15, "safety": 15}
+    },
+    {
+      "id": "memory-04",
+      "skill": "mcp-memory-workflow",
+      "kind": "positive",
+      "prompt": "Entity auth_module đã tồn tại nhưng observation 'Tokens expire in 1h' đã lỗi thời; source hiện tại xác nhận expiry là 30m.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["mcp-memory-workflow", "mcp-memory-markdown-mirror"],
+      "expected_mcp": ["memory.search_nodes", "memory.delete_observations", "memory.add_observations"],
+      "must": ["Cập nhật entity hiện có bằng delete stale observation rồi add fact mới; sync mirror."],
+      "must_not": ["Không tạo entity auth_module thứ hai."],
+      "scoring": {"trigger": 20, "routing": 25, "completeness": 30, "restraint": 10, "safety": 15}
+    },
+    {
+      "id": "memory-05",
+      "skill": "mcp-memory-workflow",
+      "kind": "negative",
+      "prompt": "Lưu API key và nội dung raw log vào memory để session sau có thể dùng lại.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Từ chối lưu secrets và raw logs; có thể đề xuất lưu fact đã được làm sạch nếu cần."],
+      "must_not": ["Không gọi bất kỳ memory write tool nào cho dữ liệu này."],
+      "scoring": {"trigger": 30, "routing": 20, "completeness": 20, "restraint": 10, "safety": 20}
+    },
+    {
+      "id": "continuity-01",
+      "skill": "mcp-memory-continuity-resume",
+      "kind": "positive",
+      "prompt": "Session mới tiếp tục task continuity_webapp_auth_refactor. Hãy khôi phục objective, findings, files touched và next step trước khi làm tiếp.",
+      "expected_task_class": "long-running-context-heavy",
+      "target_skills": ["mcp-memory-continuity-resume", "mcp-memory-workflow"],
+      "expected_mcp": ["memory.search_nodes", "memory.open_nodes"],
+      "must": ["Search continuity entity, open full observations, restore next step và tránh rediscovery."],
+      "must_not": ["Không tạo continuity entity mới nếu entity hiện có đã phù hợp."],
+      "scoring": {"trigger": 25, "routing": 25, "completeness": 35, "restraint": 10, "safety": 5}
+    },
+    {
+      "id": "continuity-02",
+      "skill": "mcp-memory-continuity-resume",
+      "kind": "positive",
+      "prompt": "Task migration đang bị pause vì thiếu thông tin từ user. Hãy lưu handoff ngắn gọn để session sau tiếp tục được.",
+      "expected_task_class": "long-running-context-heavy",
+      "target_skills": ["mcp-memory-continuity-resume", "mcp-memory-markdown-mirror"],
+      "expected_mcp": ["memory.search_nodes", "memory.create_entities", "memory.add_observations"],
+      "must": ["Lưu objective, status blocked/paused, confirmed findings, files touched, blocker và next step; sync mirror."],
+      "must_not": ["Không lưu task history dài hoặc raw logs."],
+      "scoring": {"trigger": 20, "routing": 25, "completeness": 35, "restraint": 10, "safety": 10}
+    },
+    {
+      "id": "continuity-03",
+      "skill": "mcp-memory-continuity-resume",
+      "kind": "positive",
+      "prompt": "Task continuity_webapp_auth_refactor đã hoàn tất và findings quan trọng đã được chuyển thành decision/bug_pattern permanent.",
+      "expected_task_class": "long-running-context-heavy",
+      "target_skills": ["mcp-memory-continuity-resume", "mcp-memory-markdown-mirror"],
+      "expected_mcp": ["memory.delete_entities"],
+      "must": ["Xóa continuity entity sau completion và sync mirror để bỏ continuity active."],
+      "must_not": ["Không giữ continuity entity active vô thời hạn."],
+      "scoring": {"trigger": 20, "routing": 20, "completeness": 35, "restraint": 10, "safety": 15}
+    },
+    {
+      "id": "reasoning-01",
+      "skill": "sequential-thinking-reasoning",
+      "kind": "positive",
+      "prompt": "Checkout có 3 nguyên nhân khả dĩ: cache stale, timeout payment provider, hoặc race condition. Hãy lập hypothesis loop và chọn test rẻ nhất cho từng nguyên nhân.",
+      "expected_task_class": "investigation-debug",
+      "target_skills": ["sequential-thinking-reasoning"],
+      "expected_mcp": ["sequential-thinking.sequential_thinking"],
+      "must": ["Nêu hypotheses, test, evidence evaluation, revision và root-cause confirmation."],
+      "must_not": ["Không nhảy thẳng tới một nguyên nhân duy nhất."],
+      "scoring": {"trigger": 25, "routing": 20, "completeness": 40, "restraint": 10, "safety": 5}
+    },
+    {
+      "id": "reasoning-02",
+      "skill": "sequential-thinking-reasoning",
+      "kind": "positive",
+      "prompt": "Chọn giữa REST và GraphQL cho API mới với constraints về caching, team familiarity và backward compatibility. Hãy so sánh trade-offs và đưa ra rationale.",
+      "expected_task_class": "shared-core-change",
+      "target_skills": ["sequential-thinking-reasoning"],
+      "expected_mcp": ["sequential-thinking.sequential_thinking", "memory.add_observations"],
+      "must": ["Branch/comparison theo constraints, chọn phương án có rationale và chỉ lưu decision sau khi xác nhận."],
+      "must_not": ["Không coi đây là binary decision không cần reasoning."],
+      "scoring": {"trigger": 25, "routing": 20, "completeness": 35, "restraint": 10, "safety": 10}
+    },
+    {
+      "id": "reasoning-03",
+      "skill": "sequential-thinking-reasoning",
+      "kind": "negative",
+      "prompt": "Có nên đổi tên biến `foo` thành `bar` trong cùng một function không? Có, hãy làm đi.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Bỏ qua sequential-thinking vì quyết định hiển nhiên và local."],
+      "must_not": ["Không tạo chuỗi suy luận nhiều bước cho việc này."],
+      "scoring": {"trigger": 35, "routing": 25, "completeness": 15, "restraint": 20, "safety": 5}
+    },
+    {
+      "id": "reasoning-04",
+      "skill": "sequential-thinking-reasoning",
+      "kind": "positive",
+      "prompt": "Hypothesis A bị bác bỏ bởi test mới. Hãy revise thought tương ứng thay vì tiếp tục reasoning tuyến tính như thể A vẫn đúng.",
+      "expected_task_class": "investigation-debug",
+      "target_skills": ["sequential-thinking-reasoning"],
+      "expected_mcp": ["sequential-thinking.sequential_thinking"],
+      "must": ["Dùng revision metadata/ý nghĩa tương đương và cập nhật hướng điều tra theo evidence mới."],
+      "must_not": ["Không giữ kết luận dựa trên hypothesis đã bị bác bỏ."],
+      "scoring": {"trigger": 25, "routing": 20, "completeness": 35, "restraint": 10, "safety": 10}
+    },
+    {
+      "id": "figma-01",
+      "skill": "figma-to-code",
+      "kind": "positive",
+      "prompt": "Đây là Figma URL kèm node-id của landing page. Hãy chuyển thiết kế thành cấu trúc semantic cho React và lập asset export checklist.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["figma-to-code"],
+      "expected_mcp": [],
+      "must": ["Activate figma-to-code; phân tích hierarchy/layout trước code; giữ text trong DOM; lập asset checklist."],
+      "must_not": ["Không tự động activate memory continuity hoặc sequential-thinking nếu task không cần."],
+      "scoring": {"trigger": 30, "routing": 15, "completeness": 35, "restraint": 15, "safety": 5}
+    },
+    {
+      "id": "figma-02",
+      "skill": "figma-to-code",
+      "kind": "positive",
+      "prompt": "Trong Figma có hero photo, logo SVG, icon vector nhỏ và decorative background. Hãy phân loại cách xử lý từng asset.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["figma-to-code"],
+      "expected_mcp": [],
+      "must": ["Phân biệt raster, simple icon, complex SVG và decorative group theo asset-detection resource."],
+      "must_not": ["Không biến mọi layer thành wrapper HTML hoặc inline toàn bộ complex SVG."],
+      "scoring": {"trigger": 30, "routing": 15, "completeness": 40, "restraint": 10, "safety": 5}
+    },
+    {
+      "id": "figma-03",
+      "skill": "figma-to-code",
+      "kind": "negative",
+      "prompt": "Sửa lỗi typo trong file package.json đã chỉ định. Không có Figma, screenshot hoặc design reference.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Không activate figma-to-code."],
+      "must_not": ["Không đọc các resource Figma hoặc lập asset checklist."],
+      "scoring": {"trigger": 40, "routing": 20, "completeness": 15, "restraint": 20, "safety": 5}
+    },
+    {
+      "id": "figma-04",
+      "skill": "figma-to-code",
+      "kind": "positive",
+      "prompt": "Figma design yêu cầu triển khai cho Next.js. Hãy áp dụng adapter phù hợp: server component mặc định, Image cho ảnh và use client chỉ khi có interaction.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["figma-to-code"],
+      "expected_mcp": [],
+      "must": ["Chọn Next.js adapter và giữ các nguyên tắc server/client component, Image dimensions/priority phù hợp."],
+      "must_not": ["Không thêm use client vào mọi component."],
+      "scoring": {"trigger": 30, "routing": 15, "completeness": 40, "restraint": 10, "safety": 5}
+    },
+    {
+      "id": "composition-01",
+      "skill": "skill-routing-matrix",
+      "kind": "positive",
+      "prompt": "Đây là shared-core auth refactor kéo dài nhiều session, có 3 callers và cần quyết định về token rotation. Hãy chỉ ra skill chain và thứ tự MCP hợp lý.",
+      "expected_task_class": "long-running-context-heavy",
+      "target_skills": ["task-classification-router", "mcp-memory-workflow", "mcp-memory-continuity-resume", "nav-token-aware-graph-navigation", "sequential-thinking-reasoning"],
+      "expected_mcp": ["memory.search_nodes", "codebase-memory-mcp.trace_path", "sequential-thinking.sequential_thinking", "memory.create_entities", "memory.add_observations"],
+      "must": ["Phân biệt entry skill, graph evidence, reasoning, durable memory và continuity branch; không ép mirror nếu chưa có write."],
+      "must_not": ["Không activate mcp-memory-markdown-mirror chỉ sau memory read."],
+      "scoring": {"trigger": 20, "routing": 35, "completeness": 30, "restraint": 10, "safety": 5}
+    },
+    {
+      "id": "composition-02",
+      "skill": "skill-routing-matrix",
+      "kind": "positive",
+      "prompt": "Task vừa tạo memory entity decision vừa xóa continuity entity. Hãy xác định những post-step nào bắt buộc sau các memory mutations.",
+      "expected_task_class": "long-running-context-heavy",
+      "target_skills": ["mcp-memory-workflow", "mcp-memory-continuity-resume", "mcp-memory-markdown-mirror"],
+      "expected_mcp": ["memory.create_entities", "memory.delete_entities"],
+      "must": ["Chạy mirror một lần sau khi mọi mutation liên quan hoàn tất, regenerate theo current graph state và phản ánh deletion."],
+      "must_not": ["Không append mirror hoặc sync sau từng read-only call."],
+      "scoring": {"trigger": 20, "routing": 30, "completeness": 30, "restraint": 10, "safety": 10}
+    },
+    {
+      "id": "composition-03",
+      "skill": "skill-routing-matrix",
+      "kind": "negative",
+      "prompt": "Task có Figma URL nhưng chỉ yêu cầu typo trong một file CSS exact path, không cần chuyển design hay phân tích layout.",
+      "expected_task_class": "trivial-local",
+      "target_skills": [],
+      "expected_mcp": [],
+      "must": ["Ưu tiên exact user artifact và không activate Figma workflow chỉ vì URL xuất hiện ngoài phạm vi yêu cầu."],
+      "must_not": ["Không gọi graph, memory, reasoning hoặc asset workflow khi không tạo giá trị."],
+      "scoring": {"trigger": 35, "routing": 25, "completeness": 15, "restraint": 20, "safety": 5}
+    },
+    {
+      "id": "composition-04",
+      "skill": "skill-routing-matrix",
+      "kind": "positive",
+      "prompt": "Graph đã xác định chỉ có một function local bị ảnh hưởng và không có trade-off. Hãy quyết định có cần sequential-thinking hay không.",
+      "expected_task_class": "scoped-change",
+      "target_skills": ["nav-token-aware-graph-navigation"],
+      "expected_mcp": ["codebase-memory-mcp.search_graph", "codebase-memory-mcp.get_code_snippet"],
+      "must": ["Downgrade reasoning; dừng ở graph/source evidence và verification bounded."],
+      "must_not": ["Không activate sequential-thinking chỉ vì task có bước phân tích."],
+      "scoring": {"trigger": 25, "routing": 30, "completeness": 20, "restraint": 20, "safety": 5}
+    }
+  ]
+}

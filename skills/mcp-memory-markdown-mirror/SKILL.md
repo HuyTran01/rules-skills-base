@@ -31,36 +31,5 @@ Runs as a follow-up step after `mcp-memory-workflow` and `mcp-memory-continuity-
    - Create the `memory/` folder first if it doesn't exist.
 5. Do not narrate this step in the response unless the user asks about memory — it's silent housekeeping alongside the real task.
 
-## Example
-
-```
-Task: fixed a race condition in the auth module.
-
-1. memory MCP:
-   create_entities([{
-     name: "race_condition_auth",
-     entityType: "bug_pattern",
-     observations: [
-       "Race condition in token refresh under concurrent requests",
-       "Fixed by adding a mutex around refresh logic"
-     ]
-   }])
-
-2. Mirror sync:
-   - search_nodes("my-webapp") → returns all entities linked to my-webapp
-   - Render grouped markdown
-   - Write to my-webapp/memory/memory.md
-```
-
-Resulting `memory/memory.md` excerpt:
-```markdown
-## Bug Patterns
-- **race_condition_auth**: Race condition in token refresh under concurrent requests; Fixed by adding a mutex around refresh logic
-```
-
-## Anti-patterns
-- Appending a line instead of regenerating the whole file (see `memory-markdown-mirror.md`).
-- Running this on every read-only memory call (`search_nodes` used for recall) — only sync after writes.
-- Mixing multiple projects into one mirror file.
-- Treating the markdown file as an input to be read back into memory MCP.
-- Skipping the sync silently and letting the mirror go stale after several sessions.
+## Notes
+- The canonical mirror format, sync strategy, and safety rules live in `memory-markdown-mirror.md`.

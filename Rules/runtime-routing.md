@@ -37,12 +37,6 @@ Was this information discovered before, or is it a cross-session fact?
 Use standard local tools (file reads, grep, commands).
 ```
 
-### MCP combination patterns
-- **Code understanding task**: codebase-memory → get evidence → sequential-thinking → reason about it
-- **Debug task**: memory → recall past bugs → codebase-memory → trace the issue → sequential-thinking → form hypotheses → memory → save solution
-- **Architecture decision**: codebase-memory → get_architecture → sequential-thinking → reason about options → memory → save decision via manage_adr or memory entity
-- **Resume work**: memory → search_nodes for context → codebase-memory → detect_changes → continue
-
 ### MCP re-route triggers
 Re-check MCP selection when:
 - scope expands or shifts
@@ -103,8 +97,7 @@ After completing verification, evaluate whether knowledge should be saved:
 - New convention or pattern discovered → memory MCP entity/observation
 - Architectural decision made → memory MCP or manage_adr
 - Bug pattern solved → memory MCP observation
-- Follow `memory-governance.md` for safety.
-- After any memory write, resync `memory/memory.md` per `memory-markdown-mirror.md`.
+- Follow `memory-governance.md` for safety and `memory-markdown-mirror.md` for mirror sync after writes.
 
 ## Conflict handling
 For precedence, follow `core-global-rules.md`.

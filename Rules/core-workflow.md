@@ -13,9 +13,7 @@ Apply these rules in every task unless a more specific rule overrides them.
 - Keep commands, file paths, URLs, identifiers, and code exact.
 
 ## Execution defaults
-- **MCP-first**: always check graph and memory before grep or file reads.
-- **Graph before grep**: use `search_graph`, `trace_path`, or `get_architecture` from codebase-memory-mcp before falling back to text search or raw file exploration.
-- **Memory before rediscovery**: use `search_nodes` from memory MCP at task start to recall project knowledge, conventions, and past decisions.
+- **MCP-first**: check graph and memory before broad grep or raw file exploration.
 - Verify before claiming completion.
 - Prefer the cheapest sufficient path.
 - Re-check task shape when evidence changes scope or risk.
@@ -26,4 +24,4 @@ After completing a task, evaluate whether new knowledge was gained:
 - If user confirmed a preference or workflow → save to memory MCP.
 - If a bug pattern and its solution were found → save to memory MCP.
 - Keep memory entries compact: facts, not narration.
-- Follow `memory-governance.md` for safety rules.
+- Follow `memory-governance.md` for safety rules and `memory-markdown-mirror.md` for mirror sync after writes.

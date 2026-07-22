@@ -3,9 +3,6 @@
 Use this file to minimize context cost while preserving correctness.
 
 ## Required behavior
-- Classify with `task-routing.md` before broad exploration.
-- Re-route with `runtime-routing.md` when evidence changes task shape.
-- Stay within `task-retrieval-budget.md`.
 - Do not repeat information the user already confirmed unless it is needed as evidence.
 
 ## MCP-first cheapest-sufficient path
