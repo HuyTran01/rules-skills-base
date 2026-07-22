@@ -13,13 +13,14 @@ If two rules do not truly conflict, apply both in the lowest-context way that st
 6. `task-token-efficiency.md` - MCP-first cheapest-sufficient execution and context control.
 7. `memory-governance.md` - Knowledge Graph memory reads, writes, auto-learn triggers, and continuity safety.
 8. `memory-markdown-mirror.md` - human-readable `memory/memory.md` mirror of memory MCP writes, per project.
-9. Context-specific rules:
+9. `skill-routing-matrix.md` - composition map between TaskClass, skills, canonical rules, and MCPs.
+10. Context-specific rules:
    - `code-quality.md`
    - `nav-codebase-graph.md`
    - `template-plan-task-handoff.md`
    - `conflict-resolution.md`
-10. `task-response-compact.md` - response shaping and completion evidence.
-11. `authoring-conventions.md` - rule and skill maintenance.
+11. `task-response-compact.md` - response shaping and completion evidence.
+12. `authoring-conventions.md` - rule and skill maintenance.
 
 ## MCP trinity
 Three MCP servers power this system. The agent must treat them as primary tools, not optional add-ons.
@@ -60,6 +61,7 @@ Three MCP servers power this system. The agent must treat them as primary tools,
 - Plans and handoffs: `template-plan-task-handoff.md`
 - Conflict handling: `conflict-resolution.md`
 - Authoring: `authoring-conventions.md`
+- Skill composition: `skill-routing-matrix.md`
 
 ## Design principles
 - Keep one source of truth per concern.

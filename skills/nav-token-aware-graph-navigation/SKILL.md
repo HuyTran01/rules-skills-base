@@ -12,10 +12,11 @@ disabled: true
 Use when code relationships, architecture, shared-core impact, callers, callees, or data flow are central to the task.
 
 ## Delegates to
-- `Rules/nav-codebase-graph.md` — full tool reference, graph model, and Cypher patterns
-- `Rules/runtime-routing.md`
-- `Rules/task-retrieval-budget.md`
-- `Rules/task-token-efficiency.md`
+- `../../Rules/nav-codebase-graph.md` — full tool reference, graph model, and Cypher patterns
+- `../../Rules/runtime-routing.md`
+- `../../Rules/task-retrieval-budget.md`
+- `../../Rules/task-token-efficiency.md`
+- `../../Rules/skill-routing-matrix.md`
 
 ## Operating flow
 

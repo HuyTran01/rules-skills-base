@@ -17,10 +17,11 @@ Use when:
 - Cross-session continuity may reduce repeated work.
 
 ## Delegates to
-- `Rules/memory-governance.md` — entity taxonomy, naming, safety, and auto-learn triggers
-- `Rules/memory-markdown-mirror.md` — sync the human-readable mirror after any write in this flow
-- `Rules/task-token-efficiency.md`
-- `Rules/conflict-resolution.md`
+- `../../Rules/memory-governance.md` — entity taxonomy, naming, safety, and auto-learn triggers
+- `../../Rules/memory-markdown-mirror.md` — sync the human-readable mirror after any write in this flow
+- `../../Rules/task-token-efficiency.md`
+- `../../Rules/conflict-resolution.md`
+- `../../Rules/skill-routing-matrix.md`
 
 ## Operating flow
 
@@ -47,7 +48,7 @@ Use when:
 
 ## Entity taxonomy reference
 
-Please refer to the canonical entity taxonomy table defined in **[memory-governance.md](Rules/memory-governance.md#entity-taxonomy-for-coding-context)**. Do not define a duplicate taxonomy table here.
+Please refer to the canonical entity taxonomy table defined in **[memory-governance.md](../../Rules/memory-governance.md#entity-taxonomy-for-coding-context)**. Do not define a duplicate taxonomy table here.
 
 ## Example: full auto-learn cycle
 

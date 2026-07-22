@@ -16,10 +16,11 @@ Use when:
 - A new session starts and the project has been worked on before.
 
 ## Delegates to
-- `Rules/memory-governance.md` — entity taxonomy and safety
-- `Rules/memory-markdown-mirror.md` — sync the human-readable mirror after preserving or cleaning up continuity state
-- `Rules/template-plan-task-handoff.md` — handoff structure
-- `Rules/task-response-compact.md`
+- `../../Rules/memory-governance.md` — entity taxonomy and safety
+- `../../Rules/memory-markdown-mirror.md` — sync the human-readable mirror after preserving or cleaning up continuity state
+- `../../Rules/template-plan-task-handoff.md` — handoff structure
+- `../../Rules/task-response-compact.md`
+- `../../Rules/skill-routing-matrix.md`
 
 ## Operating flow
 

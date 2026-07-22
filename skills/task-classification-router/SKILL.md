@@ -12,11 +12,12 @@ disabled: true
 Use at task start, after scope changes, or when the current workflow feels too heavy or too weak.
 
 ## Delegates to
-- `Rules/runtime-routing.md`
-- `Rules/task-routing.md`
-- `Rules/project-profile-detection.md`
-- `Rules/task-retrieval-budget.md`
-- `Rules/task-token-efficiency.md`
+- `../../Rules/runtime-routing.md`
+- `../../Rules/task-routing.md`
+- `../../Rules/project-profile-detection.md`
+- `../../Rules/task-retrieval-budget.md`
+- `../../Rules/task-token-efficiency.md`
+- `../../Rules/skill-routing-matrix.md`
 
 ## Operating flow
 1. Classify the current `TaskClass`.

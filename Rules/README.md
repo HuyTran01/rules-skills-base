@@ -12,7 +12,7 @@ An MCP-first rule system for AI coding agents. Designed to maximize agent intell
 
 ## Reading Order
 
-Please follow the canonical rule application and reading order defined in **[core-global-rules.md](Rules/core-global-rules.md)**. 
+Please follow the canonical rule application and reading order defined in **[core-global-rules.md](core-global-rules.md)**.
 
 The global rules are structured hierarchically:
 - **Steering Core**: `core-workflow.md` (conventions) and `runtime-routing.md` (decision engine) represent the primary runtime steering.
@@ -23,13 +23,16 @@ The global rules are structured hierarchically:
 
 | Skill | Purpose |
 |---|---|
-| [task-classification-router](skills/task-classification-router/) | Classify task → choose MCP set → pick retrieval tier |
-| [nav-token-aware-graph-navigation](skills/nav-token-aware-graph-navigation/) | Navigate code via codebase-memory-mcp graph |
-| [mcp-memory-workflow](skills/mcp-memory-workflow/) | Read/write Knowledge Graph memory with auto-learn |
-| [mcp-memory-continuity-resume](skills/mcp-memory-continuity-resume/) | Cross-session work continuation via memory entities |
-| [mcp-memory-markdown-mirror](skills/mcp-memory-markdown-mirror/) | Mirror Knowledge Graph memory into a human-readable `memory/memory.md` per project |
-| [sequential-thinking-reasoning](skills/sequential-thinking-reasoning/) | Structured reasoning: debugging, decisions, planning |
-| [figma-to-code](skills/figma-to-code/) | Design-to-code conversion |
+| [task-classification-router](../skills/task-classification-router/) | Classify task → choose MCP set → pick retrieval tier |
+| [nav-token-aware-graph-navigation](../skills/nav-token-aware-graph-navigation/) | Navigate code via codebase-memory-mcp graph |
+| [mcp-memory-workflow](../skills/mcp-memory-workflow/) | Read/write Knowledge Graph memory with auto-learn |
+| [mcp-memory-continuity-resume](../skills/mcp-memory-continuity-resume/) | Cross-session work continuation via memory entities |
+| [mcp-memory-markdown-mirror](../skills/mcp-memory-markdown-mirror/) | Mirror Knowledge Graph memory into a human-readable `memory/memory.md` per project |
+| [sequential-thinking-reasoning](../skills/sequential-thinking-reasoning/) | Structured reasoning: debugging, decisions, planning |
+| [figma-to-code](../skills/figma-to-code/) | Design-to-code conversion |
+
+Skill activation and composition are defined in **[skill-routing-matrix.md](skill-routing-matrix.md)**.
+All skills currently use `disabled: true` as an explicit opt-in/template marker; remove or change that field only when the target agent host supports and requires automatic activation.
 
 ## How It Works
 
@@ -75,7 +78,7 @@ Task arrives
 
 ## Adding New Rules or Skills
 
-See [authoring-conventions.md](Rules/authoring-conventions.md) for guidelines:
+See [authoring-conventions.md](authoring-conventions.md) for guidelines:
 - One canonical file per concern.
 - Skills delegate to rules, not copy policy.
 - Check for duplicates before creating.

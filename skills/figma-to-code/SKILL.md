@@ -12,13 +12,13 @@ disabled: true
 Use when the task includes a Figma URL, file key, node id, screenshot, or explicit design-to-code request.
 
 ## Delegates to
-- `Rules/runtime-routing.md`
-- `Rules/task-token-efficiency.md`
-- `skills/figma-to-code/resources/layout-patterns.md`
-- `skills/figma-to-code/resources/dom-structure.md`
-- `skills/figma-to-code/resources/style-tokens.md`
-- `skills/figma-to-code/resources/asset-detection.md`
-- `skills/figma-to-code/resources/framework-adapters.md`
+- `../../Rules/runtime-routing.md`
+- `../../Rules/task-token-efficiency.md`
+- `resources/layout-patterns.md`
+- `resources/dom-structure.md`
+- `resources/style-tokens.md`
+- `resources/asset-detection.md`
+- `resources/framework-adapters.md`
 
 ## Operating flow
 1. Gather the exact design context and target framework.
